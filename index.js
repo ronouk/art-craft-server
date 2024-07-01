@@ -4,16 +4,32 @@ const cors = require("cors")
 const app = express();
 const port = process.env.PORT || 5000;
 
+const Product = require("./models/productModel")
+
 // art-craft-db
 // azHvm7ycBZDNkL9X
 
 //middleware
 app.use(cors());
 app.use(express.json());
+//to use form instead of json
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
     res.send("Art and craft server is running")
 })
+
+//fetch all the product from the database
+app.get("/all-crafts", async (req, res) => {
+    try {
+        const products = await Product.find({});
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+
 
 mongoose.connect("mongodb+srv://art-craft-db:azHvm7ycBZDNkL9X@cluster0.jjpytgu.mongodb.net/art-craft-database?retryWrites=true&w=majority&appName=Cluster0")
     .then(() => {
