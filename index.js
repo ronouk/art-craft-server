@@ -40,6 +40,17 @@ app.post('/add-craft', async (req, res) => {
     }
 })
 
+//fetch a single product with id
+app.get("/all-crafts/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id)
+        res.status(200).json(product)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 
 
 mongoose.connect("mongodb+srv://art-craft-db:azHvm7ycBZDNkL9X@cluster0.jjpytgu.mongodb.net/art-craft-database?retryWrites=true&w=majority&appName=Cluster0")
