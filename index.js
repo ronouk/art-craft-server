@@ -51,6 +51,26 @@ app.get("/all-crafts/:id", async (req, res) => {
     }
 })
 
+//update a product
+app.put("/all-crafts/:id", async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        const product = await Product.findByIdAndUpdate(id, req.body);
+
+        if (!product) {
+            return res.status(404).json({ message: `No product found with id: ${id}` })
+        }
+
+        const updatedProduct = await Product.findById(id);
+
+        res.status(200).json(updatedProduct)
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 
 
 mongoose.connect("mongodb+srv://art-craft-db:azHvm7ycBZDNkL9X@cluster0.jjpytgu.mongodb.net/art-craft-database?retryWrites=true&w=majority&appName=Cluster0")
