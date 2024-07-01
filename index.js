@@ -29,6 +29,17 @@ app.get("/all-crafts", async (req, res) => {
     }
 })
 
+//post data to the database
+app.post('/add-craft', async (req, res) => {
+    try {
+        const product = await Product.create(req.body)
+        res.status(200).json(product);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ message: error.message })
+    }
+})
+
 
 
 mongoose.connect("mongodb+srv://art-craft-db:azHvm7ycBZDNkL9X@cluster0.jjpytgu.mongodb.net/art-craft-database?retryWrites=true&w=majority&appName=Cluster0")
